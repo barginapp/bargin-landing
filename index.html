@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bargin — Know before you buy</title>
+<meta name="description" content="Bargin gives you an instant Buy or Skip verdict on Vinted and Depop listings, before you commit — built for UK resellers, priced with real sold data, not guesses.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230B1F3A%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22%2334D399%22 font-family=%22monospace%22>B</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1F3A;
+    --card:#10294D;
+    --sheet:#16345E;
+    --border:#081428;
+    --hairline:rgba(255,255,255,0.12);
+    --ink:#F5F8FF;
+    --ink-soft:#A9BBD6;
+    --ink-faint:#6E85AB;
+    --accent:#5DA9FF;
+    --link:#2563EB;
+    --buy:#1a9e5c;
+    --small-win:#2563EB;
+    --low-profit:#B45309;
+    --loss:#9c3d3d;
+    --risky:#d64545;
+    --gold:#D9C08C;
+    --radius:16px;
+    --maxw:1080px;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 520px at 12% -10%, rgba(93,169,255,0.16), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(52,211,153,0.10), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--link);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+  /* Nav */
+  header.site{
+    position:sticky;top:0;z-index:20;
+    background:rgba(11,31,58,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  header.site .bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 0;
+  }
+  .wordmark{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;font-size:1.15rem;letter-spacing:0.02em;
+    color:var(--ink);text-decoration:none;
+    display:flex;align-items:center;gap:8px;
+  }
+  .wordmark .dot{width:9px;height:9px;border-radius:50%;background:var(--buy);box-shadow:0 0 10px rgba(52,211,153,0.7);}
+  nav.site-links{display:flex;gap:28px;align-items:center;}
+  nav.site-links a{color:var(--ink-soft);text-decoration:none;font-size:0.92rem;font-weight:500;}
+  nav.site-links a:hover{color:var(--ink);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 22px;border-radius:999px;font-weight:700;font-size:0.95rem;
+    border:1px solid transparent;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:linear-gradient(135deg,#34D399,#22b981);color:#06281c;box-shadow:0 8px 24px rgba(52,211,153,0.25);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{background:transparent;border-color:var(--hairline);color:var(--ink);}
+  .btn-ghost:hover{border-color:rgba(255,255,255,0.3);}
+
+  /* Hero */
+  .hero{padding:76px 0 60px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:0.78rem;font-weight:600;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);
+    background:rgba(93,169,255,0.1);border:1px solid rgba(93,169,255,0.3);
+    padding:6px 14px;border-radius:999px;margin-bottom:22px;
+  }
+  h1{font-size:2.9rem;line-height:1.08;letter-spacing:-0.02em;margin:0 0 20px;font-weight:800;text-wrap:balance;}
+  h1 span.hl{color:var(--buy);}
+  .lede{font-size:1.15rem;color:var(--ink-soft);margin:0 0 32px;max-width:52ch;}
+  .platform-row{display:flex;gap:10px;align-items:center;margin-bottom:34px;flex-wrap:wrap;}
+  .chip{
+    font-size:0.82rem;font-weight:600;color:var(--ink-soft);
+    background:var(--card);border:1px solid var(--hairline);
+    padding:6px 12px;border-radius:999px;
+  }
+
+  /* Waitlist form */
+  form.waitlist{display:flex;gap:10px;max-width:440px;flex-wrap:wrap;}
+  .field{
+    flex:1;min-width:220px;
+    background:var(--card);border:1px solid var(--hairline);border-radius:12px;
+    padding:14px 16px;color:var(--ink);font-size:0.98rem;font-family:inherit;
+  }
+  .field::placeholder{color:var(--ink-faint);}
+  .field:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .form-note{font-size:0.82rem;color:var(--ink-faint);margin-top:12px;}
+  .form-status{font-size:0.9rem;margin-top:12px;min-height:1.2em;font-weight:600;}
+  .form-status.ok{color:#34D399;}
+  .form-status.err{color:#F87171;}
+
+  /* Verdict ticket mock */
+  .ticket-wrap{display:flex;justify-content:center;}
+  .ticket{
+    width:100%;max-width:340px;
+    background:linear-gradient(180deg,var(--sheet),var(--card));
+    border:1px solid var(--hairline);border-radius:22px;
+    padding:22px;box-shadow:0 30px 70px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset;
+    position:relative;overflow:hidden;
+  }
+  .ticket::before{
+    content:'';position:absolute;inset:-40% -20% auto -20%;height:200px;
+    background:radial-gradient(circle, rgba(52,211,153,0.22), transparent 70%);
+    pointer-events:none;
+  }
+  .ticket-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;}
+  .ticket-plat{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-faint);letter-spacing:0.06em;}
+  .ticket-verdict{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.5rem;letter-spacing:0.02em;
+    color:#7CF5B6;margin:14px 0 4px;position:relative;
+  }
+  .ticket-sub{font-size:0.85rem;color:var(--ink-soft);margin-bottom:18px;position:relative;}
+  .ticket-divider{border-top:1px dashed var(--hairline);margin:16px 0;position:relative;}
+  .ticket-row{display:flex;justify-content:space-between;font-size:0.88rem;padding:6px 0;position:relative;color:var(--ink-soft);}
+  .ticket-row b{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;}
+  .ticket-profit{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.7rem;color:#7CF5B6;
+    margin-top:4px;position:relative;
+  }
+  .ticket-flag{
+    display:inline-block;font-size:0.7rem;font-weight:600;color:var(--ink-soft);
+    background:rgba(255,255,255,0.06);border:1px solid var(--hairline);
+    padding:3px 9px;border-radius:999px;margin-top:14px;position:relative;
+  }
+
+  /* Sections */
+  section{padding:64px 0;}
+  .section-head{max-width:640px;margin:0 auto 44px;text-align:center;}
+  .section-head .eyebrow{display:inline-flex;}
+  h2{font-size:2rem;letter-spacing:-0.01em;margin:0 0 14px;font-weight:800;text-wrap:balance;}
+  .section-head p{color:var(--ink-soft);font-size:1.05rem;margin:0;}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .step-card{
+    background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+    padding:28px 24px;
+  }
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.85rem;color:var(--bg);
+    background:#7CF5B6;width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .step-card h3{margin:0 0 8px;font-size:1.1rem;}
+  .step-card p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+
+  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .feature-card{
+    background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+    padding:26px;display:flex;gap:16px;
+  }
+  .feature-icon{
+    width:40px;height:40px;border-radius:10px;flex-shrink:0;
+    background:rgba(93,169,255,0.12);border:1px solid rgba(93,169,255,0.3);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  }
+  .feature-card h3{margin:0 0 6px;font-size:1.02rem;}
+  .feature-card p{margin:0;color:var(--ink-soft);font-size:0.93rem;}
+
+  .verdicts-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .verdict-chip{
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.85rem;
+    padding:10px 18px;border-radius:12px;color:#fff;
+    display:flex;flex-direction:column;gap:2px;min-width:120px;text-align:center;
+  }
+  .verdict-chip small{font-family:'Inter',sans-serif;font-weight:500;font-size:0.72rem;opacity:0.85;}
+  .v-buy{background:var(--buy);}
+  .v-small{background:var(--small-win);}
+  .v-low{background:var(--low-profit);}
+  .v-loss{background:var(--loss);}
+  .v-risky{background:var(--risky);}
+
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;}
+  .price-card{
+    background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);
+    padding:30px 26px;display:flex;flex-direction:column;
+  }
+  .price-card.highlight{border-color:rgba(52,211,153,0.55);box-shadow:0 0 0 1px rgba(52,211,153,0.25), 0 20px 50px rgba(52,211,153,0.08);position:relative;}
+  .price-card.highlight::after{
+    content:'MOST FLEXIBLE';position:absolute;top:-11px;left:26px;
+    font-family:'IBM Plex Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;
+    background:#7CF5B6;color:#06281c;padding:4px 10px;border-radius:999px;
+  }
+  .price-card h3{margin:0 0 6px;font-size:1.05rem;color:var(--ink-soft);font-weight:600;}
+  .price-amount{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:2.1rem;margin:6px 0 2px;}
+  .price-amount span{font-size:0.95rem;color:var(--ink-faint);font-weight:500;}
+  .price-scans{color:var(--ink-soft);font-size:0.9rem;margin-bottom:20px;}
+  .price-list{list-style:none;margin:0 0 24px;padding:0;flex:1;}
+  .price-list li{
+    font-size:0.9rem;color:var(--ink-soft);padding:8px 0;
+    border-top:1px solid var(--hairline);display:flex;gap:8px;
+  }
+  .price-list li:first-child{border-top:none;}
+  .price-list li::before{content:'✓';color:#7CF5B6;font-weight:700;flex-shrink:0;}
+
+  .faq{max-width:760px;margin:0 auto;}
+  details{
+    background:var(--card);border:1px solid var(--hairline);border-radius:14px;
+    padding:18px 22px;margin-bottom:12px;
+  }
+  summary{cursor:pointer;font-weight:600;font-size:0.98rem;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:'+';font-size:1.3rem;color:var(--ink-faint);font-weight:400;}
+  details[open] summary::after{content:'–';}
+  details p{color:var(--ink-soft);margin:14px 0 0;font-size:0.93rem;}
+
+  .cta-band{
+    background:linear-gradient(135deg, rgba(52,211,153,0.12), rgba(93,169,255,0.10));
+    border:1px solid var(--hairline);border-radius:24px;padding:48px 40px;text-align:center;
+  }
+  .cta-band h2{margin-bottom:10px;}
+  .cta-band p{color:var(--ink-soft);margin:0 0 28px;}
+  .cta-band form.waitlist{margin:0 auto;justify-content:center;}
+
+  footer{border-top:1px solid var(--hairline);padding:36px 0;margin-top:20px;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+  .footer-links a{color:var(--ink-soft);font-size:0.88rem;text-decoration:none;}
+  .footer-links a:hover{color:var(--ink);}
+  .copyright{color:var(--ink-faint);font-size:0.85rem;}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .ticket-wrap{order:-1;}
+    .steps{grid-template-columns:1fr;}
+    .feature-grid{grid-template-columns:1fr;}
+    .pricing-grid{grid-template-columns:1fr;}
+    nav.site-links{display:none;}
+    h1{font-size:2.2rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <a href="#top" class="wordmark"><span class="dot"></span>bargin</a>
+    <nav class="site-links">
+      <a href="#how">How it works</a>
+      <a href="#why">Why Bargin</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Built for UK Vinted &amp; Depop resellers</span>
+        <h1>Know if it's worth buying <span class="hl">before</span> you buy it.</h1>
+        <p class="lede">Share a listing straight from Vinted or Depop into Bargin. In seconds you get a clear Buy or Skip verdict — built from real recent sold prices, not guesswork — with the fees and postage already worked in.</p>
+        <div class="platform-row">
+          <span class="chip">📱 Share-sheet, not a camera</span>
+          <span class="chip">🇬🇧 UK fees built in</span>
+          <span class="chip">📊 Real sold prices, not asking prices</span>
+        </div>
+        <form class="waitlist" id="waitlist-form" novalidate>
+          <label class="hp" aria-hidden="true">
+            Company
+            <input type="text" name="company" id="company" tabindex="-1" autocomplete="off">
+          </label>
+          <input class="field" type="email" name="email" id="email" placeholder="you@example.com" required autocomplete="email">
+          <button class="btn btn-primary" type="submit" id="submit-btn">Join the waitlist</button>
+        </form>
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        <p class="form-note">No spam — just one email when Bargin is ready to download.</p>
+      </div>
+
+      <div class="ticket-wrap">
+        <div class="ticket" aria-hidden="true">
+          <div class="ticket-top">
+            <span class="ticket-plat">VINTED · WOMEN'S OUTERWEAR</span>
+          </div>
+          <div class="ticket-verdict">BUY</div>
+          <div class="ticket-sub">Berghaus padded jacket · Very good</div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-row"><span>Listed price</span><b>£18.50</b></div>
+          <div class="ticket-row"><span>Est. resale (recent sold prices)</span><b>£51.73</b></div>
+          <div class="ticket-row"><span>Fees + postage</span><b>−£8.90</b></div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-row"><span>Estimated profit</span></div>
+          <div class="ticket-profit">+£10.53 · 56.2% ROI</div>
+          <span class="ticket-flag">Confidence: HIGH · 34 comps</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps, no typing required</h2>
+        <p>Bargin sits behind the share sheet you already use — it doesn't ask you to switch apps or copy anything by hand.</p>
+      </div>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Share a listing</h3>
+          <p>Spot something on Vinted or Depop mid-scroll. Tap Share → Bargin, right from the listing itself.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Get an instant verdict</h3>
+          <p>Bargin checks real recent sold prices, works out UK fees and postage, and gives you a clear Buy, Small Win, or Skip.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Track the flip</h3>
+          <p>Log the offer, mark it bought, relisted, and resold — see your real profit build up over time, not just a one-off guess.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Bargin</span>
+        <h2>Not a US tool with the numbers swapped</h2>
+        <p>Most flip-checking tools are camera-first and built around US fee structures. Bargin was built the other way round.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📲</div>
+          <div>
+            <h3>Made for the scroll, not the shop</h3>
+            <p>The share-sheet trigger works for the moment you're already browsing online — no photographing items in person.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🇬🇧</div>
+          <div>
+            <h3>Real UK fee accuracy</h3>
+            <p>Vinted's actual buyer fees and real UK resale-platform costs, not a generic estimate borrowed from a US competitor.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <div>
+            <h3>Sold prices, not asking prices</h3>
+            <p>Verdicts are built on real completed sales, with confidence flagged honestly when the data is thin — never a guess dressed up as certainty.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧵</div>
+          <div>
+            <h3>Clothing, streetwear &amp; shoes first</h3>
+            <p>Deep on the categories that make up most real Vinted and Depop volume, rather than spreading thin across everything at once.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Every verdict, explained</span>
+        <h2>A straight answer, not a vague score</h2>
+        <p>Bargin never hides a thin margin behind a single flat "skip" — you always see why.</p>
+      </div>
+      <div class="verdicts-row">
+        <div class="verdict-chip v-buy">BUY<small>Clears the bar</small></div>
+        <div class="verdict-chip v-small">SMALL WIN<small>Low margin, good ROI</small></div>
+        <div class="verdict-chip v-low">LOW PROFIT<small>Real, but thin</small></div>
+        <div class="verdict-chip v-loss">LOSS<small>Numbers don't add up</small></div>
+        <div class="verdict-chip v-risky">RISKY<small>Needs a manual check</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Pricing</span>
+        <h2>Start free. Upgrade when you're flipping regularly.</h2>
+        <p>No lifetime cap, no surprise charges — cancel any time.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price-amount">£0<span>/month</span></div>
+          <div class="price-scans">A handful of scans every month, no card required</div>
+          <ul class="price-list">
+            <li>Instant Buy/Skip verdicts</li>
+            <li>Real UK sold-price comps</li>
+            <li>Save &amp; track your offers</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-ghost">Join the waitlist</a>
+        </div>
+        <div class="price-card highlight">
+          <h3>Pro</h3>
+          <div class="price-amount">£8.99<span>/month</span></div>
+          <div class="price-scans">For regular flip-checking</div>
+          <ul class="price-list">
+            <li>Everything in Free</li>
+            <li>A much higher monthly scan allowance</li>
+            <li>Full offer &amp; resale tracking, profit charts</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+        </div>
+        <div class="price-card">
+          <h3>Pro+</h3>
+          <div class="price-amount">£15.99<span>/month</span></div>
+          <div class="price-scans">300 scans a month, for volume resellers</div>
+          <ul class="price-list">
+            <li>Everything in Pro</li>
+            <li>300 scans every month</li>
+            <li>Priority for new features</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-ghost">Join the waitlist</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Good to know</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Which platforms does Bargin support?</summary>
+          <p>Vinted and Depop for sourcing today, with resale verdicts benchmarked against real, recent UK sold prices. More platforms are on the roadmap.</p>
+        </details>
+        <details>
+          <summary>Is this legal / financial advice?</summary>
+          <p>No — Bargin gives you the information to make your own informed decision, not a directive. Estimates are based on recent market data, not a guarantee of what you'll actually pay in fees or postage, or what an item will eventually sell for.</p>
+        </details>
+        <details>
+          <summary>Do I need an account?</summary>
+          <p>Yes — a free account keeps your scan history, offers, and tracked resales tied to you, and protects the free tier from abuse.</p>
+        </details>
+        <details>
+          <summary>When does the app launch?</summary>
+          <p>Bargin is in final testing now. Join the waitlist and you'll get an email the moment it's live on the App Store and Google Play.</p>
+        </details>
+        <details>
+          <summary>Where does the pricing data come from?</summary>
+          <p>Real, recent completed sales — not asking prices, and not a brand's official RRP. When data is thin for an item, Bargin says so honestly rather than guessing.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="waitlist">
+    <div class="wrap">
+      <div class="cta-band">
+        <h2>Be first to know when Bargin launches</h2>
+        <p>One email, no spam — sent the day it's available to download.</p>
+        <form class="waitlist" id="waitlist-form-2" novalidate>
+          <label class="hp" aria-hidden="true">
+            Company
+            <input type="text" name="company" id="company-2" tabindex="-1" autocomplete="off">
+          </label>
+          <input class="field" type="email" name="email" id="email-2" placeholder="you@example.com" required autocomplete="email">
+          <button class="btn btn-primary" type="submit" id="submit-btn-2">Join the waitlist</button>
+        </form>
+        <div class="form-status" id="form-status-2" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="copyright">© 2026 Bargin. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="mailto:support@bargin.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ENDPOINT = "https://pdqkjaeirgewekemptdb.supabase.co/functions/v1/join-waitlist";
+  var ANON_KEY = "sb_publishable_YUD3GaM8vUua9ys2GZW5bw_1wBSvUwa";
+
+  function wire(formId, emailId, companyId, statusId, buttonId){
+    var form = document.getElementById(formId);
+    var status = document.getElementById(statusId);
+    var button = document.getElementById(buttonId);
+    if(!form) return;
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = document.getElementById(emailId).value.trim();
+      var company = document.getElementById(companyId).value.trim();
+
+      status.textContent = '';
+      status.className = 'form-status';
+
+      if(!email || email.indexOf('@') === -1){
+        status.textContent = 'Enter a valid email address.';
+        status.className = 'form-status err';
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Joining…';
+
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': ANON_KEY,
+          'Authorization': 'Bearer ' + ANON_KEY
+        },
+        body: JSON.stringify({ email: email, company: company, source: 'landing_page' })
+      })
+      .then(function(res){ return res.json().then(function(data){ return {ok: res.ok, data: data}; }); })
+      .then(function(result){
+        button.disabled = false;
+        button.textContent = 'Join the waitlist';
+        if(result.ok && result.data && result.data.status === 'ok'){
+          status.textContent = "You're on the list — we'll email you when Bargin launches.";
+          status.className = 'form-status ok';
+          form.reset();
+        } else {
+          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+          status.className = 'form-status err';
+        }
+      })
+      .catch(function(){
+        button.disabled = false;
+        button.textContent = 'Join the waitlist';
+        status.textContent = 'Something went wrong. Please try again.';
+        status.className = 'form-status err';
+      });
+    });
+  }
+
+  wire('waitlist-form', 'email', 'company', 'form-status', 'submit-btn');
+  wire('waitlist-form-2', 'email-2', 'company-2', 'form-status-2', 'submit-btn-2');
+})();
+</script>
+
+</body>
+</html>
