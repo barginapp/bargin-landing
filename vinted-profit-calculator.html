@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vinted Profit Calculator (UK, 2026) — Bargin</title>
+<meta name="description" content="Free Vinted and Depop profit calculator for UK resellers. Includes Vinted Buyer Protection, Depop payment fees and postage, so you know what you'll really make before you buy.">
+<link rel="canonical" href="https://www.bargin.app/vinted-profit-calculator.html">
+<meta property="og:title" content="Vinted Profit Calculator (UK, 2026)">
+<meta property="og:description" content="Work out your real profit on a Vinted or Depop flip — fees and postage included.">
+<meta property="og:url" content="https://www.bargin.app/vinted-profit-calculator.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%235BEAA9%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%231FA774%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2222%22%20fill%3D%22url%28%23bg%29%22/%3E%3Cg%20transform%3D%22translate%2850%2050%29%20scale%281%29%20translate%28-42.75%20-47.25%29%22%3E%3Crect%20x%3D%2230%22%20y%3D%2230%22%20width%3D%229%22%20height%3D%2248%22%20rx%3D%224.5%22%20fill%3D%22%230B1F3A%22/%3E%3Cpath%20d%3D%22M22.5%2036%20L34.5%2018%20L46.5%2036%20Z%22%20fill%3D%22%230B1F3A%22%20stroke%3D%22%230B1F3A%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22/%3E%3Ccircle%20cx%3D%2247.5%22%20cy%3D%2261%22%20r%3D%2212.5%22%20fill%3D%22none%22%20stroke%3D%22%230B1F3A%22%20stroke-width%3D%229%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Does Vinted charge sellers a fee?","acceptedAnswer":{"@type":"Answer","text":"No. In the UK, Vinted sellers pay no selling fee. The buyer pays a Buyer Protection fee (usually 5% of the item price plus £0.70) and the postage."}},
+{"@type":"Question","name":"What fees does Depop charge UK sellers?","acceptedAnswer":{"@type":"Answer","text":"Depop charges no selling fee for UK sellers, but there is a payment processing fee of 2.9% plus £0.30 on the item price plus postage."}},
+{"@type":"Question","name":"How do I work out profit on a Vinted flip?","acceptedAnswer":{"@type":"Answer","text":"Add up what you paid: item price, Buyer Protection and postage. Subtract that from what you take home after selling fees and any postage you pay. The calculator on this page does it for you."}},
+{"@type":"Question","name":"How do I know what an item will sell for?","acceptedAnswer":{"@type":"Answer","text":"Look at what the same item has actually sold for recently, not what people are asking. The Bargin app checks recent sales for you and gives a realistic sale price and profit."}}
+]}
+</script>
+<style>
+  :root{
+    --bg:#0B1F3A; --card:#10294D; --sheet:#16345E; --hairline:rgba(255,255,255,0.12);
+    --ink:#F5F8FF; --ink-soft:#A9BBD6; --ink-faint:#6E85AB; --accent:#5DA9FF; --link:#8FB8FF;
+    --good:#34D399; --ok:#5B8DFF; --warn:#F6C453; --bad:#F87171; --radius:16px; --maxw:1080px;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 520px at 12% -10%, rgba(93,169,255,0.16), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(52,211,153,0.10), transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--link);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+  header.site{position:sticky;top:0;z-index:20;background:rgba(11,31,58,0.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--hairline);}
+  header.site .bar{display:flex;align-items:center;justify-content:space-between;padding-block:16px;gap:12px;}
+  .wordmark{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.15rem;letter-spacing:0.02em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:0.95rem;border:1px solid transparent;cursor:pointer;text-decoration:none;}
+  .btn-primary{background:linear-gradient(135deg,#34D399,#22b981);color:#06281c;box-shadow:0 8px 24px rgba(52,211,153,0.25);}
+  .btn-primary:focus-visible,.seg button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .eyebrow{display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);background:rgba(93,169,255,0.1);border:1px solid rgba(93,169,255,0.3);padding:6px 14px;border-radius:999px;margin-bottom:18px;}
+  h1{font-size:2.6rem;line-height:1.08;letter-spacing:-0.02em;margin:0 0 14px;font-weight:800;text-wrap:balance;}
+  h2{font-size:1.6rem;letter-spacing:-0.01em;margin:0 0 12px;font-weight:800;text-wrap:balance;}
+  .lede{font-size:1.1rem;color:var(--ink-soft);margin:0 0 30px;max-width:60ch;}
+  .intro{padding:56px 0 24px;}
+  .calc{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;align-items:start;}
+  .panel{background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);padding:24px;}
+  .panel h3{margin:0 0 14px;font-size:1rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);}
+  .group + .group{margin-top:22px;padding-top:22px;border-top:1px solid var(--hairline);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  label{display:block;font-size:.88rem;font-weight:600;margin:0 0 6px;}
+  .hint{font-size:.8rem;color:var(--ink-faint);margin-top:5px;}
+  .money{position:relative;}
+  .money span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-faint);font-weight:600;}
+  input,select{width:100%;background:var(--sheet);border:1px solid var(--hairline);border-radius:10px;padding:12px 14px;color:var(--ink);font:500 1rem 'Inter',sans-serif;}
+  .money input{padding-left:30px;font-variant-numeric:tabular-nums;}
+  .seg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .seg button{background:transparent;color:var(--ink-soft);border:1px solid var(--hairline);border-radius:999px;padding:8px 14px;font:600 .88rem 'Inter',sans-serif;cursor:pointer;}
+  .seg button[aria-pressed="true"]{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.6);color:var(--ink);}
+  .field{margin-bottom:14px;}
+  [hidden]{display:none!important;}
+  .ticket{position:sticky;top:90px;background:linear-gradient(180deg,var(--sheet),var(--card));border:1px solid var(--hairline);border-radius:22px;padding:24px;box-shadow:0 30px 70px rgba(0,0,0,.4);}
+  .verdict{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;}
+  .profit{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:2.6rem;letter-spacing:-.02em;margin:6px 0 2px;font-variant-numeric:tabular-nums;}
+  .sub{color:var(--ink-soft);font-size:.9rem;}
+  .lines{margin:18px 0 0;padding:16px 0 0;border-top:1px dashed var(--hairline);display:grid;gap:8px;}
+  .line{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;color:var(--ink-soft);}
+  .line b{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums;}
+  .line.total{border-top:1px solid var(--hairline);padding-top:8px;margin-top:4px;}
+  .line.total span,.line.total b{color:var(--ink);font-weight:700;}
+  .nudge{margin-top:20px;padding:16px;border-radius:14px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);font-size:.9rem;color:var(--ink-soft);}
+  .nudge b{color:var(--ink);}
+  .nudge a{display:inline-block;margin-top:10px;}
+  section.info{padding:56px 0 8px;}
+  .prose{max-width:720px;}
+  .prose p,.prose li{color:var(--ink-soft);}
+  .prose table{width:100%;border-collapse:collapse;margin:16px 0 8px;font-size:.92rem;}
+  .prose th,.prose td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--hairline);}
+  .prose th{color:var(--ink);font-weight:600;}
+  .prose td{color:var(--ink-soft);}
+  .scroll{overflow-x:auto;}
+  details{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:18px 22px;margin-bottom:12px;}
+  summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:'+';color:var(--ink-faint);}
+  details[open] summary::after{content:'–';}
+  details p{color:var(--ink-soft);margin:12px 0 0;font-size:.93rem;}
+  .cta-band{background:linear-gradient(135deg, rgba(52,211,153,0.12), rgba(93,169,255,0.10));border:1px solid var(--hairline);border-radius:24px;padding:40px 28px;text-align:center;margin:56px 0 24px;}
+  .cta-band p{color:var(--ink-soft);margin:0 auto 24px;max-width:52ch;}
+  footer{border-top:1px solid var(--hairline);padding:36px 0;margin-top:20px;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+  .footer-links a{color:var(--ink-soft);font-size:0.88rem;text-decoration:none;}
+  .copyright{color:var(--ink-faint);font-size:0.85rem;}
+  .updated{color:var(--ink-faint);font-size:.82rem;}
+  @media (max-width:860px){ .calc{grid-template-columns:1fr;} .ticket{position:static;} h1{font-size:2rem;} }
+  @media (max-width:480px){ .row{grid-template-columns:1fr;} header.site .btn{padding:10px 14px;font-size:.85rem;} }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a href="/" class="wordmark"><svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5BEAA9"/><stop offset="1" stop-color="#1FA774"/></linearGradient></defs><rect width="100" height="100" rx="22" fill="url(#bg)"/><g transform="translate(50 50) scale(1) translate(-42.75 -47.25)"><rect x="30" y="30" width="9" height="48" rx="4.5" fill="#0B1F3A"/><path d="M22.5 36 L34.5 18 L46.5 36 Z" fill="#0B1F3A" stroke="#0B1F3A" stroke-width="3" stroke-linejoin="round"/><circle cx="47.5" cy="61" r="12.5" fill="none" stroke="#0B1F3A" stroke-width="9"/></g></svg>bargin</a>
+    <a href="/#waitlist" class="btn btn-primary">Get the app</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <span class="eyebrow">Free tool · UK</span>
+    <h1>Vinted profit calculator</h1>
+    <p class="lede">Work out what you'll really make on a flip before you buy. Includes Vinted Buyer Protection, Depop payment fees and postage.</p>
+  </div>
+
+  <div class="calc">
+    <form class="panel" id="calc" onsubmit="return false" novalidate>
+      <div class="group">
+        <h3>Buying</h3>
+        <div class="seg" role="group" aria-label="Where you're buying">
+          <button type="button" data-buy="vinted" aria-pressed="true">Vinted</button>
+          <button type="button" data-buy="depop" aria-pressed="false">Depop</button>
+          <button type="button" data-buy="other" aria-pressed="false">Car boot / other</button>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="price">Item price</label>
+            <div class="money"><span>£</span><input id="price" inputmode="decimal" value="12.00"></div>
+            <div class="hint" id="bpHint">+ Buyer Protection £1.30</div>
+          </div>
+          <div class="field">
+            <label for="postIn">Postage to you</label>
+            <div class="money"><span>£</span><input id="postIn" inputmode="decimal" value="3.75"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="size">Item size</label>
+          <select id="size">
+            <option value="2.20">Large letter (t-shirt, thin top)</option>
+            <option value="3.75" selected>Small parcel (jumper, jeans, trainers)</option>
+            <option value="6.50">Medium parcel (coat, boots)</option>
+            <option value="9.50">Large parcel (bulky or bundle)</option>
+          </select>
+          <div class="hint">Sets a typical postage estimate. Change it if you know the real cost.</div>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Selling</h3>
+        <div class="seg" role="group" aria-label="Where you're selling">
+          <button type="button" data-sell="vinted" aria-pressed="true">Vinted</button>
+          <button type="button" data-sell="depop" aria-pressed="false">Depop</button>
+          <button type="button" data-sell="other" aria-pressed="false">Other</button>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="sale">Sells for</label>
+            <div class="money"><span>£</span><input id="sale" inputmode="decimal" value="30.00"></div>
+            <div class="hint">Use what it's actually sold for recently, not asking prices.</div>
+          </div>
+          <div class="field">
+            <label for="postOut">Postage you pay</label>
+            <div class="money"><span>£</span><input id="postOut" inputmode="decimal" value="0.00"></div>
+            <div class="hint">Usually £0: the buyer pays. Add it if you offer free postage.</div>
+          </div>
+        </div>
+        <div class="row" id="otherFees" hidden>
+          <div class="field">
+            <label for="feePct">Selling fee %</label>
+            <input id="feePct" inputmode="decimal" value="10">
+          </div>
+          <div class="field">
+            <label for="feeFixed">Plus fixed fee</label>
+            <div class="money"><span>£</span><input id="feeFixed" inputmode="decimal" value="0.30"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <aside class="ticket" aria-live="polite">
+      <div class="verdict" id="verdict">Decent flip</div>
+      <div class="profit" id="profit">+£0.00</div>
+      <div class="sub" id="roi">profit</div>
+      <div class="lines">
+        <div class="line"><span>Item price</span><b id="lPrice">£0.00</b></div>
+        <div class="line"><span id="lBpLabel">Buyer Protection</span><b id="lBp">£0.00</b></div>
+        <div class="line"><span>Postage to you</span><b id="lIn">£0.00</b></div>
+        <div class="line total"><span>Total cost</span><b id="lCost">£0.00</b></div>
+        <div class="line" style="margin-top:8px"><span>Sells for</span><b id="lSale">£0.00</b></div>
+        <div class="line"><span id="lFeeLabel">Selling fees</span><b id="lFee">£0.00</b></div>
+        <div class="line"><span>Postage you pay</span><b id="lOut">£0.00</b></div>
+        <div class="line total"><span>You take home</span><b id="lTake">£0.00</b></div>
+      </div>
+      <p class="sub" style="margin-top:14px">Break-even sale price: <b class="mono" id="breakEven">£0.00</b></p>
+      <div class="nudge"><b>Not sure what it'll sell for?</b> Bargin reads the listing, checks what the same item has actually sold for recently, and tells you in seconds whether it's worth buying.<br><a class="btn btn-primary" href="/#waitlist">Get Bargin</a></div>
+    </aside>
+  </div>
+
+  <section class="info">
+    <div class="prose">
+      <h2>How Vinted and Depop fees work (UK)</h2>
+      <p>Fees change the maths more than most people think, especially on cheap items. Here's what applies in the UK right now.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th></th><th>When you buy</th><th>When you sell</th></tr></thead>
+          <tbody>
+            <tr><td><b>Vinted</b></td><td>Buyer Protection, usually 5% of the price + £0.70, plus postage</td><td>No selling fee. The buyer pays postage.</td></tr>
+            <tr><td><b>Depop</b></td><td>No extra buyer fee, plus postage</td><td>No selling fee, but 2.9% + £0.30 payment processing on the item price and postage</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="updated">Fees checked September 2026. Platforms change fees from time to time; check their help pages if something looks off. This calculator is a guide, not financial advice.</p>
+      <p>The biggest mistake new resellers make isn't fees, though. It's guessing the sale price from what other sellers are asking. Asking prices are often far higher than what things actually sell for, so always base your estimate on real recent sales.</p>
+    </div>
+  </section>
+
+  <section class="info">
+    <div class="prose">
+      <h2>Questions</h2>
+      <details><summary>Does Vinted charge sellers a fee?</summary><p>No. In the UK, Vinted sellers pay no selling fee. The buyer pays a Buyer Protection fee (usually 5% of the item price plus £0.70) and the postage.</p></details>
+      <details><summary>What fees does Depop charge UK sellers?</summary><p>No selling fee for UK sellers, but there's a payment processing fee of 2.9% + £0.30 on the item price plus postage.</p></details>
+      <details><summary>What's a good profit on a flip?</summary><p>It depends on your time, but many resellers aim to at least double their money, or make £10+ per item. Under £3 is rarely worth the photos, listing and trip to the post office.</p></details>
+      <details><summary>How do I know what an item will sell for?</summary><p>Look at what the same item has actually sold for recently, not what people are asking. The Bargin app does this for you: paste a Vinted or Depop link and it gives a realistic sale price, profit and a buy-or-skip verdict.</p></details>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2>Check any listing in seconds</h2>
+    <p>Bargin does this maths automatically for every Vinted and Depop listing, with a sale price based on real recent sales.</p>
+    <a class="btn btn-primary" href="/#waitlist">Get Bargin</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="copyright">© 2026 Bargin. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="mailto:support@bargin.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var buy = 'vinted', sell = 'vinted';
+  var $ = function(id){ return document.getElementById(id); };
+  function num(id){ var v = parseFloat(String($(id).value).replace(/[£,\s]/g,'')); return isFinite(v) && v > 0 ? v : 0; }
+  function gbp(n){ var s = Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (n < 0 ? '−£' : '£') + s; }
+  function r2(n){ return Math.round(n * 100) / 100; }
+  function feeFor(sale){
+    if (sell === 'vinted') return 0;
+    if (sell === 'depop') return sale > 0 ? r2(sale * 0.029 + 0.30) : 0;
+    return sale > 0 ? r2(sale * num('feePct') / 100 + num('feeFixed')) : 0;
+  }
+  function calc(){
+    var price = num('price'), postIn = num('postIn'), sale = num('sale'), postOut = num('postOut');
+    var bp = buy === 'vinted' && price > 0 ? r2(price * 0.05 + 0.70) : 0;
+    var cost = r2(price + bp + postIn);
+    var fee = feeFor(sale);
+    var take = r2(sale - fee - postOut);
+    var profit = r2(take - cost);
+    var roi = cost > 0 ? Math.round(profit / cost * 100) : 0;
+    var pct = sell === 'vinted' ? 0 : sell === 'depop' ? 0.029 : num('feePct') / 100;
+    var fixed = sell === 'vinted' ? 0 : sell === 'depop' ? 0.30 : num('feeFixed');
+    var be = pct < 1 ? r2((cost + postOut + fixed) / (1 - pct)) : 0;
+    var verdict, color;
+    if (profit < 0) { verdict = 'Loss — skip it'; color = 'var(--bad)'; }
+    else if (profit < 3) { verdict = 'Barely worth it'; color = 'var(--warn)'; }
+    else if (profit >= 8 && roi >= 50) { verdict = 'Great flip'; color = 'var(--good)'; }
+    else { verdict = 'Decent flip'; color = 'var(--ok)'; }
+    $('verdict').textContent = verdict; $('verdict').style.color = color;
+    $('profit').textContent = (profit >= 0 ? '+' : '') + gbp(profit); $('profit').style.color = color;
+    $('roi').textContent = cost > 0 ? roi + '% return on ' + gbp(cost) : 'Enter what you paid';
+    $('lPrice').textContent = gbp(price);
+    $('lBp').textContent = gbp(bp);
+    $('lBpLabel').textContent = buy === 'vinted' ? 'Buyer Protection' : 'Buyer fee';
+    $('bpHint').textContent = buy === 'vinted' ? '+ Buyer Protection ' + gbp(bp) : 'No buyer fee';
+    $('lIn').textContent = gbp(postIn); $('lCost').textContent = gbp(cost);
+    $('lSale').textContent = gbp(sale);
+    $('lFeeLabel').textContent = sell === 'vinted' ? 'Selling fees (none on Vinted)' : sell === 'depop' ? 'Depop payment fee' : 'Selling fees';
+    $('lFee').textContent = fee ? '−' + gbp(fee) : gbp(0);
+    $('lOut').textContent = postOut ? '−' + gbp(postOut) : gbp(0);
+    $('lTake').textContent = gbp(take);
+    $('breakEven').textContent = gbp(be);
+  }
+  function seg(attr, set){
+    document.querySelectorAll('[data-' + attr + ']').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('[data-' + attr + ']').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        set(b.getAttribute('data-' + attr)); calc();
+      });
+    });
+  }
+  seg('buy', function(v){ buy = v; });
+  seg('sell', function(v){ sell = v; $('otherFees').hidden = v !== 'other'; });
+  $('size').addEventListener('change', function(){ $('postIn').value = parseFloat(this.value).toFixed(2); calc(); });
+  ['price','postIn','sale','postOut','feePct','feeFixed'].forEach(function(id){ $(id).addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
