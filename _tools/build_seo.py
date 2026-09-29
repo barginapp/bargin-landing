@@ -52,6 +52,7 @@ def page(title, desc, url, head_extra, main):
 <meta name="description" content="{esc(desc)}">
 {social(title, desc, url)}
 {icon}
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 {fonts}
 {head_extra}
 {style}
