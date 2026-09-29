@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vinted Profit Calculator (UK, 2026) — Bargin</title>
-<meta name="description" content="Free Vinted and Depop profit calculator for UK resellers. Includes Vinted Buyer Protection, Depop payment fees and postage, so you know what you'll really make before you buy.">
-<link rel="canonical" href="https://www.bargin.app/vinted-profit-calculator.html">
-<meta property="og:title" content="Vinted Profit Calculator (UK, 2026)">
-<meta property="og:description" content="Work out your real profit on a Vinted or Depop flip — fees and postage included.">
-<meta property="og:url" content="https://www.bargin.app/vinted-profit-calculator.html">
+<title>Depop Fee Calculator (UK, 2026): What You Keep After Fees — Bargin</title>
+<meta name="description" content="Free Depop fee calculator for UK sellers. Depop has no selling fee, but charges 2.9% + £0.30 payment processing. See what you keep and your real profit on a flip.">
+<link rel="canonical" href="https://www.bargin.app/depop-fee-calculator.html">
+<meta property="og:title" content="Depop Fee Calculator (UK, 2026)">
+<meta property="og:description" content="What you keep after Depop fees, and your real profit.">
+<meta property="og:url" content="https://www.bargin.app/depop-fee-calculator.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bargin">
 <meta property="og:image" content="https://www.bargin.app/og-image.png">
@@ -135,8 +135,8 @@
 <main class="wrap">
   <div class="intro">
     <span class="eyebrow">Free tool · UK</span>
-    <h1>Vinted profit calculator</h1>
-    <p class="lede">Work out what you'll really make on a flip before you buy. Includes Vinted Buyer Protection, Depop payment fees and postage.</p>
+    <h1>Depop fee calculator</h1>
+    <p class="lede">See what you keep after Depop's payment processing fee, and your real profit on a flip. Works for Vinted too.</p>
   </div>
 
   <div class="calc">
@@ -174,8 +174,8 @@
       <div class="group">
         <h3>Selling</h3>
         <div class="seg" role="group" aria-label="Where you're selling">
-          <button type="button" data-sell="vinted" aria-pressed="true">Vinted</button>
-          <button type="button" data-sell="depop" aria-pressed="false">Depop</button>
+          <button type="button" data-sell="vinted" aria-pressed="false">Vinted</button>
+          <button type="button" data-sell="depop" aria-pressed="true">Depop</button>
           <button type="button" data-sell="other" aria-pressed="false">Other</button>
         </div>
         <div class="row">
@@ -250,7 +250,7 @@
     </div>
   </section>
 
-<section class="info"><div class="prose"><h2>More free tools and guides</h2></div><div class="cards"><a class="gcard" href="/depop-fee-calculator.html"><small>Tool</small>Depop fee calculator<span>See what you keep after Depop's payment fee.</span></a><a class="gcard" href="/vinted-fees-explained.html"><small>Guide</small>Vinted fees explained<span>Buyer Protection, postage and what sellers pay.</span></a><a class="gcard" href="/vinted-tax-hmrc.html"><small>Guide</small>Vinted and HMRC tax rules<span>The 30-item rule and when resellers owe tax.</span></a><a class="gcard" href="/how-to-flip-on-vinted.html"><small>Guide</small>How to flip on Vinted<span>A beginner's guide to reselling for profit.</span></a></div></section>
+<section class="info"><div class="prose"><h2>More free tools and guides</h2></div><div class="cards"><a class="gcard" href="/vinted-profit-calculator.html"><small>Tool</small>Vinted profit calculator<span>Work out your real profit, fees and postage included.</span></a><a class="gcard" href="/vinted-fees-explained.html"><small>Guide</small>Vinted fees explained<span>Buyer Protection, postage and what sellers pay.</span></a><a class="gcard" href="/vinted-tax-hmrc.html"><small>Guide</small>Vinted and HMRC tax rules<span>The 30-item rule and when resellers owe tax.</span></a><a class="gcard" href="/how-to-flip-on-vinted.html"><small>Guide</small>How to flip on Vinted<span>A beginner's guide to reselling for profit.</span></a></div></section>
   <div class="cta-band">
     <h2>Check any listing in seconds</h2>
     <p>Bargin does this maths automatically for every Vinted and Depop listing, with a sale price based on real recent sales.</p>
@@ -272,7 +272,7 @@
 
 <script>
 (function(){
-  var buy = 'vinted', sell = 'vinted';
+  var buy = 'vinted', sell = 'depop';
   var $ = function(id){ return document.getElementById(id); };
   function num(id){ var v = parseFloat(String($(id).value).replace(/[£,\s]/g,'')); return isFinite(v) && v > 0 ? v : 0; }
   function gbp(n){ var s = Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (n < 0 ? '−£' : '£') + s; }

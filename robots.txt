@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_tools/
+
+Sitemap: https://www.bargin.app/sitemap.xml
